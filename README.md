@@ -1,1 +1,1 @@
-# IMPLEMENTATION OF VARIOUS DATA STRUCTURES AND ALGORITHMS
+# Implementation of various Data Strutures and Algorithms

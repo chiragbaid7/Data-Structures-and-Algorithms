@@ -4,7 +4,6 @@ class Dynamic_Array:
         self.capacity=4
         self.static_array=[None]*self.capacity
         self.size=0
-
     def _increase_capacity(self):
         self.capacity*=2
         temp=self.static_array
