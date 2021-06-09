@@ -1,11 +1,14 @@
+from typing import NamedTuple
+
+
 class Node:
     def __init__(self,data):
         self.data=data
         self.next=None
 
 class LinkedList:
-    def __init__(self):
-        self.head=None
+    def __init__(self,head=None):
+        self.head=head
         self.size=0
 
     def insert_tail(self,data): #O(n)
@@ -74,6 +77,26 @@ class LinkedList:
             prev.next =node
             self.size+=1
 
+    def reverse(self):
+        prev=None
+        next=None 
+        curr=self.head
+        while(curr):
+            next=curr.next  #hard work
+            curr.next=prev 
+            prev=curr
+            curr=next 
+        self.head=prev 
+
+    def recursive_reverse(self,head):
+        if(head.next==None or head==None ):
+            self.head=head
+            return head 
+        node=self.recursive_reverse(head.next)
+        node.next=head 
+        head.next=None
+        return head
+        
 head=LinkedList()
 head.insert_head(3)
 head.insert_head(3)
@@ -81,6 +104,7 @@ head.insert_head(4)
 head.insert_head(13)
 head.insert_tail(14)
 head.insert_tail(16)
+head.insert_tail(17)
 head.delete_head()
 head.insert_at(3,10)
 head.insert_at(1,9)
@@ -90,9 +114,5 @@ head.remove_at(1)
 head.print()
 head.remove_at(0)
 head.print()
-head.remove_at(2)
+head.recursive_reverse(head.head);
 head.print()
-head.remove_at(3)
-head.print()
-
-print(head.size)
