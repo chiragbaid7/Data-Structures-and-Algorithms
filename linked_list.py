@@ -90,29 +90,30 @@ class LinkedList:
 
     def recursive_reverse(self,head):
         if(head.next==None or head==None ):
-            self.head=head
+            #self.head=head
             return head 
         node=self.recursive_reverse(head.next)
-        node.next=head 
+        head.next.next=head 
         head.next=None
-        return head
+        return node
         
-head=LinkedList()
-head.insert_head(3)
-head.insert_head(3)
-head.insert_head(4)
-head.insert_head(13)
-head.insert_tail(14)
-head.insert_tail(16)
-head.insert_tail(17)
-head.delete_head()
-head.insert_at(3,10)
-head.insert_at(1,9)
-#head.insert_at(8,10)
-head.print()
-head.remove_at(1)
-head.print()
-head.remove_at(0)
-head.print()
-head.recursive_reverse(head.head);
-head.print()
+List1=LinkedList()
+List1.insert_head(3)
+List1.insert_head(3)
+List1.insert_head(4)
+List1.insert_head(13)
+List1.insert_tail(14)
+List1.insert_tail(16)
+List1.insert_tail(17)
+List1.delete_head()
+List1.insert_at(3,10)
+List1.insert_at(1,9)
+#List1.insert_at(8,10)
+List1.print()
+List1.remove_at(1)
+List1.print()
+List1.remove_at(0)
+List1.print()
+new_node=List1.recursive_reverse(List1.head);
+reverse_List=LinkedList(new_node)
+reverse_List.print()
