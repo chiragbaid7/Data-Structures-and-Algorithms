@@ -1,6 +1,3 @@
-from typing import NamedTuple
-
-
 class Node:
     def __init__(self,data):
         self.data=data
@@ -8,7 +5,7 @@ class Node:
 
 class LinkedList:
     def __init__(self,head=None):
-        self.head=head
+        self.head=head  
         self.size=0
 
     def insert_tail(self,data): #O(n)
