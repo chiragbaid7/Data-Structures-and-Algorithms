@@ -38,8 +38,10 @@ class N_Array:
         for node in parent.children:
             self.print_util(node)
         return 
+   
     def print(self):
         self.print_util(self.root)
+   
     def length(self):
         print(f'total elements is:{self.size} ')
 
