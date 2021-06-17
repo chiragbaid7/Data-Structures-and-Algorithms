@@ -41,8 +41,6 @@ class Tree:
     def __height(self,node):
         if(node==None ):
             return 0
-        if(node.left ==None and node.right==None):
-            return 0 
         return max(self.__height(node.left),self.__height(node.right))+1
     def printHeight(self):
        return  self.__height(self.root)
