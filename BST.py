@@ -10,6 +10,7 @@ class Node:
 class BST:
     def __init__(self):
         self.root=None 
+        
     def __insert__util(self,key,node):  
         if(node==None):
             return Node(key)
@@ -23,7 +24,38 @@ class BST:
         if(root==None):
             self.root=Node(data)
         else:
+            #since we are creating a copy
             self.root=self.__insert__util(data,self.root)
+    def __delete_node(self,data,node):
+        #1.first find the node that you want to delete 
+        if(node==None):
+            #print when no such 
+            print("No key exists")
+            return None 
+        elif(data<node.data):
+            node.left=self.__delete_node(data,node.left)
+        elif(data>node.data):
+            node.right=self.__delete_node(data,node.right)
+        else:
+            #when key is found 
+            if(node.left==None and node.right==None):
+                return None 
+            elif(node.left and node.right==None):
+                return node.left 
+            elif(node.right and node.left==None):
+                return node.right 
+            #when 2 childrens exists
+            else:
+                # find the in order succesor  and replace it with current node 
+                temp=node.right 
+                while(temp.left):
+                    temp=temp.left 
+                node.data=temp.data
+                node.right=self.__delete_node(temp.data,node.right)
+        return node 
+                
+    def delete(self,data):
+        self.root=self.__delete_node(data,self.root)
 
         #print DFS
     def __print_util(self,node):
@@ -44,4 +76,6 @@ root.insert(40)
 root.insert(3)
 root.insert(5)
 root.insert(1)
+root.print_tree()
+root.delete(4)
 root.print_tree()
