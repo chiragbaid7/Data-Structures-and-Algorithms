@@ -23,7 +23,7 @@ class Dynamic_Array:
         return self.size
 
     def get(self,index):
-        if(index<0 or index>self.size):
+        if(index<0 or index>=self.size):
             raise IndexError("Index out of bounds")
         return self.static_array[index]
 
@@ -62,11 +62,12 @@ myarray.remove()
 myarray.add(99)
 myarray.remove()
 myarray.remove()
-print(myarray.size)
 
 #print(myarray.static_array)
 #myarray.remove()
 #myarray.clear()
 
-myarray.insert_at(100,80)
+print(myarray.get(5))
+print(myarray.size)
 print(myarray.static_array)
+print(myarray.size)
