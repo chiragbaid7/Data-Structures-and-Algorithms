@@ -47,6 +47,13 @@ class Dynamic_Array:
             self.static_array[i]=self.static_array[i-1]
         self.static_array[index]=element
         self.size+=1
+    
+    def delete_at(self,index):
+        if(index<0 or index>=self.size):
+            raise IndexError("Index out of bounds")
+        for i in range(index,self.size):
+            self.static_array[i]=self.static_array[i+1]
+        self.size-=1
 
 myarray=Dynamic_Array()
 
@@ -65,9 +72,9 @@ myarray.remove()
 
 #print(myarray.static_array)
 #myarray.remove()
-#myarray.clear()
-
-print(myarray.get(5))
-print(myarray.size)
 print(myarray.static_array)
+#myarray.clear()
+myarray.delete_at(10)
 print(myarray.size)
+#print(myarray.get(5))
+print(myarray.static_array)
