@@ -1,4 +1,7 @@
 class Node:
+    '''
+    Node class to create nodes
+    '''
     def __init__(self,data):
         self.data=data
         self.next=None
@@ -39,6 +42,8 @@ class LinkedList:
             self.delete_head()
         else:
             prev=self.head
+            ''''
+            
             node=prev.next
             pos=1
             while(pos<index):
@@ -46,6 +51,10 @@ class LinkedList:
                 node=node.next
                 pos+=1
             prev.next=node.next
+            '''
+            for i in range(1,index):
+                prev=prev.next 
+            prev.next=prev.next.next
             self.size-=1
 
     def insert_at(self,index,data):
