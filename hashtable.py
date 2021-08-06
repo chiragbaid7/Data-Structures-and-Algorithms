@@ -39,7 +39,6 @@ class Hashtable:
                     self.__setitem__(bucket.key,bucket.val)
                     bucket=bucket.next
 
-        #3.delete the old table
         
     def __setitem__(self,key,val):
         """
