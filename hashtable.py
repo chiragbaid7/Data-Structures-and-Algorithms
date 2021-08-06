@@ -43,7 +43,7 @@ class Hashtable:
         
     def __setitem__(self,key,val):
         """
-        seprate chaining is used to handle collisions
+        seperate chaining is used to handle collisions
         Linked list is the data struture and nodes are 
         inserted at the head
         """
