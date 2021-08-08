@@ -1,5 +1,7 @@
 from collections import defaultdict, deque
+
 class Graph:
+
     def __init__(self,nodes):
         #this will create empty list as a value for a non existent key
         self.list=defaultdict(list)
@@ -50,7 +52,7 @@ class Graph:
         while(queue):
             node=queue.popleft()
             for neigh in self.list[node]:
-                if(visited and parent[node]==neigh):
+                if(visited[neigh] and parent[node]==neigh):
                     continue
                 if(visited[neigh] and node!=parent[neigh]):
                     return True 
