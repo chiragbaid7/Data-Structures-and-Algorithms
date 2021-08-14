@@ -14,7 +14,7 @@ class N_Array:
         for child in node.children:
             parent=self.__find_node(key,child) 
             if(parent!=None):
-                return node 
+                return parent 
         return None 
 
     def insert(self,data,key=None):
