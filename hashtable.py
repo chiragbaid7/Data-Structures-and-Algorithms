@@ -33,9 +33,10 @@ class Hashtable:
         self.table=[None]*self.table_size
         self.cs=0
         for i in range(old_table_size):
+            # look through each bucket
             bucket=temp[i]
-            if(bucket):
-                while(bucket):
+            if(bucket): # if none then there is no key,value pair there
+                while(bucket): # if present then scan the linked list
                     self.__setitem__(bucket.key,bucket.val)
                     bucket=bucket.next
 
