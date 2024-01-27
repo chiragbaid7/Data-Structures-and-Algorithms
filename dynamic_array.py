@@ -55,6 +55,65 @@ class Dynamic_Array:
             self.static_array[i]=self.static_array[i+1]
         self.size-=1
 
+
+class DynamicArray:
+    def __init__(self):
+        self.capacity = 2
+        self.length = 0
+        self.array = [0]*2
+    def resize(self):
+        self.capacity*=2
+        tempArray = [0]*self.capacity
+        #Copy elements to temp array
+        for i in range(self.length):
+            tempArray[i] = self.array
+        self.array = tempArray
+        
+    def append(self, n):
+        if self.length == self.capacity:
+            self.resize()
+        # resized array now
+        self.array[self.length] = n
+        self.length +=1
+
+    def popback(self):
+        if(self.length > 0):
+            self.length-=1
+    def insert(self, index, element):
+        # validate index
+        if(index > self.capacity or index < 0):
+            raise IndexError('No such error')
+            self.array[index] = element
+        # if the array is full, then create 2*x array
+        if(self.length == self.capacity):
+            self.resize()
+        '''
+            input - [1,2,3,4,5,.,.,.]
+            insert(100,1)
+            the array will start filling elements from n till index + 1 leaving index empty
+            Now just cake
+        '''
+        for i in range(self.length, index ,-1):
+            self.array[i] = self.array[i-1]
+        self.array[index] = element
+        self.length+=1
+            
+    def remove(self,index):
+        if(index >= self.length or index < 0):
+            raise IndexError('Error')
+        # popback op
+        if(index == self.length -1):
+            self.popback()
+            return
+        '''
+            input - [1,2,4,5,6]
+            remove(2)
+            Same array start flling from index to the length-1
+        '''
+        for i in range(index, length-1):
+            self.array[i] = self.array[i+1]
+        self.length -= 1
+    
 myarray=Dynamic_Array()
 
 myarray.add(3)
