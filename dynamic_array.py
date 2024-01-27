@@ -56,20 +56,22 @@ class Dynamic_Array:
         self.size-=1
 
 
+# Online Python compiler (interpreter) to run Python online.
+# Write Python 3 code in this online editor and run it.
 class DynamicArray:
     def __init__(self):
-        self.capacity = 2
+        self.capacity = 4
         self.length = 0
-        self.array = [0]*2
+        self.array = [-1]*4
     def resize(self):
         self.capacity*=2
-        tempArray = [0]*self.capacity
+        tempArray = [-1]*self.capacity
         #Copy elements to temp array
         for i in range(self.length):
             tempArray[i] = self.array
         self.array = tempArray
         
-    def append(self, n):
+    def add(self, n):
         if self.length == self.capacity:
             self.resize()
         # resized array now
@@ -78,6 +80,7 @@ class DynamicArray:
 
     def popback(self):
         if(self.length > 0):
+            self.array[self.length-1] = -1
             self.length-=1
     def insert(self, index, element):
         # validate index
@@ -102,7 +105,7 @@ class DynamicArray:
         if(index >= self.length or index < 0):
             raise IndexError('Error')
         # popback op
-        if(index == self.length -1):
+        if(index == self.length-1):
             self.popback()
             return
         '''
@@ -110,30 +113,26 @@ class DynamicArray:
             remove(2)
             Same array start flling from index to the length-1
         '''
-        for i in range(index, length-1):
+        for i in range(index, self.length-1):
             self.array[i] = self.array[i+1]
+            self.array[i+1]=-1
         self.length -= 1
     
-myarray=Dynamic_Array()
+    def print(self):
+        print(self.array)
+        return self.array
+    
+myarray=DynamicArray()
 
 myarray.add(3)
 myarray.add(4)
 myarray.add(5)
-myarray.add(6)
-myarray.add(8)
-
-myarray.add(10)
-myarray.add(11)
-myarray.remove()
+myarray.print()
 myarray.add(99)
-myarray.remove()
-myarray.remove()
+myarray.popback()
 
-#print(myarray.static_array)
-#myarray.remove()
-print(myarray.static_array)
-#myarray.clear()
-myarray.delete_at(10)
-print(myarray.size)
-#print(myarray.get(5))
-print(myarray.static_array)
+myarray.insert(2,100)
+myarray.print()
+myarray.remove(1)
+myarray.print()
+
