@@ -70,12 +70,98 @@ class Hashtable:
         except Exception as e:
             raise(e)
 
-d=Hashtable(5)
-d["chirag"]=12
-d["rani"]=14
-d["mahesh"]=12
-d["hh"]=54
-d["rahul"]=8.3
-print(d["chirag"])
-print(d["rahul"])
+# d=Hashtable(5)
+# d["chirag"]=12
+# d["rani"]=14
+# d["mahesh"]=12
+# d["hh"]=54
+# d["rahul"]=8.3
+# print(d["chirag"])
+# print(d["rahul"])
 #print(d["cirag"])
+
+
+
+
+
+'''
+TODO:
+    Create a Hash table where each slot is a Pair(key:value) object.
+    Maintain a LF and check that it doesn't crosses threshold during insertion, rehash it then.
+    Create a hash function that returns an index for a key, main logic.
+Operations:-
+    get(key)
+    set(key,value)
+    delete(key)
+'''
+
+class Pair:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+class hashTable:
+    def __init__(self):
+        self.map = [None]
+        self.size = 0
+        self.slots = 4
+    def __hash(self,key):
+        '''
+            A good hash function is which reduces the chance of collisions for better performance.
+            A prime number is used as a multiplier because of its unique factors. The hash value will not share 
+            common patterns with the hash table size.
+        '''
+        hashValue = 0
+        primeNumber = 1
+        for i in range(len(key)):
+            hashValue+= (ord(key[i]) * primeNumber) % self.slots)
+            primeNumber = (primeNumber * 27) % self.slots
+        return hashValue % self.slots
+    def __reHash(self):
+        '''
+            Create a new hashMap with 2* capacity
+            Iterate through old map and do insertation ops for each pair.
+        '''
+        self.slots*=2
+        newMap = [None]*self.slots
+
+        oldMap = self.map
+        self.map = newMap
+        self.size = 0
+        for pair in oldMap:
+            if(pair):
+                self.setItem(pair.key, pair.value)
+
+    def setItem(self, key, value):
+        '''
+            HashTable - [pair1, pair2, pair3]
+            Create a pair object
+            get the hashValue and insert it.
+            If collision then go for quadratic probing
+                Two, what if key already exists then insert new value for that key
+        '''
+        hashValue = self.__hash(key)
+        while True:
+            if self.map[hashValue] == None:
+                self.map[hashValue] =  new Pair(key, value)
+                self.size+=1
+                loadFactor = self.size / self.slots
+                if(loadFactor > 0.75):
+                    self.__reHash()
+                return
+            elif self.map[hashValue].key == key:
+                self.map[hashValue].value = value
+                return
+            hashValue = (hashValue * hashValue) % self.slots
+
+    def getItem(self, key):
+        '''
+            If no key present then return None
+            For address probing, we can get same hash value for 2 different keys then we need to check if key are same
+            if not then quadratic
+        '''
+        hashValue = self.__hash(key)
+        while self.map[hashValue] != None:
+            if(self.map[hashValue].key == key):
+                return self.map[hashValue].value
+            hashValue = (hashValue * hashValue) % self.slots
+        return None
