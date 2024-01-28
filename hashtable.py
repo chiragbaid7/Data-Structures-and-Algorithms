@@ -101,9 +101,10 @@ class Pair:
         self.value = value
 class hashTable:
     def __init__(self):
-        self.map = [None]
         self.size = 0
-        self.slots = 4
+        self.slots = 10
+        self.map = [None] * self.slots
+
     def __hash(self,key):
         '''
             A good hash function is which reduces the chance of collisions for better performance.
@@ -113,13 +114,13 @@ class hashTable:
         hashValue = 0
         primeNumber = 1
         for i in range(len(key)):
-            hashValue+= (ord(key[i]) * primeNumber) % self.slots)
+            hashValue+= ((ord(key[i]) * primeNumber) % self.slots)
             primeNumber = (primeNumber * 27) % self.slots
         return hashValue % self.slots
     def __reHash(self):
         '''
             Create a new hashMap with 2* capacity
-            Iterate through old map and do insertation ops for each pair.
+            Iterate through old map and do insertation ops for each pair in your new map.
         '''
         self.slots*=2
         newMap = [None]*self.slots
@@ -139,19 +140,24 @@ class hashTable:
             If collision then go for quadratic probing
                 Two, what if key already exists then insert new value for that key
         '''
-        hashValue = self.__hash(key)
-        while True:
-            if self.map[hashValue] == None:
-                self.map[hashValue] =  new Pair(key, value)
-                self.size+=1
-                loadFactor = self.size / self.slots
-                if(loadFactor > 0.75):
-                    self.__reHash()
-                return
-            elif self.map[hashValue].key == key:
-                self.map[hashValue].value = value
-                return
-            hashValue = (hashValue * hashValue) % self.slots
+        try:
+            hashValue = self.__hash(key)
+            while True:
+                if self.map[hashValue] == None:
+                    self.map[hashValue] =  Pair(key, value)
+                    self.size+=1
+                    loadFactor = self.size / self.slots
+                    print(key, hashValue)
+                    if(loadFactor >= 0.75):
+                        print("reHashing happenindg", key)
+                        self.__reHash()
+                    return
+                elif self.map[hashValue].key == key:
+                    self.map[hashValue].value = value
+                    return
+                hashValue = (hashValue * hashValue) % self.slots
+        except Exception as e:
+            print(e)
 
     def getItem(self, key):
         '''
@@ -165,3 +171,22 @@ class hashTable:
                 return self.map[hashValue].value
             hashValue = (hashValue * hashValue) % self.slots
         return None
+        
+    def __setitem__(self, key, value):
+        self.setItem(key, value)
+    
+    def __getitem__(self, key):
+       return self.getItem(key)
+    
+d = hashTable()
+d["chirag"] = 23
+d["ganesh"] = 22
+d["mitestgh"] = 21
+d["rajesh"] = 22
+d["hsdfkh"] = 22
+d["mNanegs"] =22
+d["faman"] =21
+d["rabad"] =21
+
+print(d.map)
+
