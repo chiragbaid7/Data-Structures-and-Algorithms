@@ -84,7 +84,7 @@ class DynamicArray:
             self.length-=1
     def insert(self, index, element):
         # validate index
-        if(index > self.capacity or index < 0):
+        if(index >= self.length or index < 0):
             raise IndexError('No such error')
             self.array[index] = element
         # if the array is full, then create 2*x array
