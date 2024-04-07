@@ -84,11 +84,10 @@ class DynamicArray:
             self.length-=1
     def insert(self, index, element):
         # validate index
-        if(index >= self.length or index < 0):
+        if(index > self.length or index < 0):
             raise IndexError('Index out of range')
-            self.array[index] = element
         # if the array is full, then create 2*x array
-        if(self.length == self.capacity):
+        if (self.length == self.capacity):
             self.resize()
         '''
             input - [1,2,3,4,5,.,.,.]
