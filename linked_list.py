@@ -123,3 +123,65 @@ List1.print()
 new_node=List1.recursive_reverse(List1.head);
 reverse_List=LinkedList(new_node)
 reverse_List.print()
+
+
+
+# Version 2.0
+
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class LinkedList2():
+    def __init__(self):
+        self.size = 0
+        self.head = None
+        self.tail = None
+    def insertHead(self, data):
+        newNode = Node(data)
+        newNode.next = self.head
+        # First time only.
+        if(self.head == None):
+            self.tail = newNode
+        self.head = newNode
+        self.size+=1
+    def insertAt(self, index, data):
+        if (index < 0 or index > self.size):
+            raise IndexError('Index out of range')
+        if (index == 0):
+            self.insertHead()
+            return;
+        else if (index == self.size):
+            self.insertTail()
+            return;
+        # Tranverse and reach index - i
+        currNode = self.head
+        newNode = Node(data)
+        currNodeIndex = 0
+        while(self.head.next != None and currNodeIndex < index):
+            currNode = currNode.next
+            currNodeIndex+=1
+        newNode.next = currNode.next
+        currNode.next = newNode
+        self.size+=1
+    def insertTail(self,data):
+        #self.head = firstNode
+        #self.tail = lastNode
+        newNode = Node(data)
+        self.tail.next = newNode
+        self.tail = newNode
+    def removeAt(self, index, data):
+        currNode = self.head
+        # Covers for all cases
+        # As currNode points to 0 index already, so start from 1
+        # Traverse from 1, index -1
+        if(index < 0 or index >=self.size):
+            raise IndexErorr("Index out of range")
+        for i in range(1,index):
+            currNode = currNode.next
+        currNode.next = currNode.next.next
+        self.size-=1
+
+a = LinkedList2()
+
