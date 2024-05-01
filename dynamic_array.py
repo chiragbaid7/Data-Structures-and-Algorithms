@@ -58,6 +58,15 @@ class Dynamic_Array:
 
 # Online Python compiler (interpreter) to run Python online.
 # Write Python 3 code in this online editor and run it.
+
+'''
+def __init(self):
+    self.currentSize = 0
+    self.capacity = 10
+    self.array = [None]* 10
+def append(self, element):
+    #
+'''
 class DynamicArray:
     def __init__(self):
         self.capacity = 4
@@ -65,12 +74,12 @@ class DynamicArray:
         self.array = [-1]*4
     def resize(self):
         self.capacity*=2
-        tempArray = [-1]*self.capacity
-        #Copy elements to temp array
+        tempArray = self.array
+        self.array = [-1]*self.capacity
         for i in range(self.length):
-            tempArray[i] = self.array
-        self.array = tempArray
-        
+            self.array[i] = tempArray[i]
+
+    #Add item to array, check if the currentSize = capacity, then resize
     def add(self, n):
         if self.length == self.capacity:
             self.resize()
@@ -86,13 +95,13 @@ class DynamicArray:
         # validate index
         if(index > self.length or index < 0):
             raise IndexError('Index out of range')
-        # if the array is full, then create 2*x array
+        # IMP. if the array is full, then create 2*x array
         if (self.length == self.capacity):
             self.resize()
         '''
             input - [1,2,3,4,5,.,.,.]
             insert(100,1)
-            the array will start filling elements from n till index + 1 leaving index empty
+            the array will start filling elements from backwards n(last elemenent) till index + 1 leaving index empty
             Now just cake
         '''
         for i in range(self.length, index ,-1):
