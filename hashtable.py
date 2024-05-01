@@ -1,5 +1,4 @@
-
-
+#Implementation  of open hashing
 class Node:
     def __init__(self,key,val):
         self.key=key
@@ -85,6 +84,9 @@ class Hashtable:
 
 
 '''
+(k1:v1)
+(k2:v2)
+(k3:v3)
 TODO:
     Create a Hash table where each slot is a Pair(key:value) object.
     Maintain a LF and check that it doesn't crosses threshold during insertion, rehash it then.
@@ -120,11 +122,10 @@ class hashTable:
     def __reHash(self):
         '''
             Create a new hashMap with 2* capacity
-            Iterate through old map and do insertation ops for each pair in your new map.
+            Iterate through old map and do insertion ops for each pair in your new map.
         '''
         self.slots*=2
         newMap = [None]*self.slots
-
         oldMap = self.map
         self.map = newMap
         self.size = 0
@@ -135,26 +136,28 @@ class hashTable:
     def setItem(self, key, value):
         '''
             HashTable - [pair1, pair2, pair3]
-            Create a pair object
-            get the hashValue and insert it.
-            If collision then go for quadratic probing
-                Two, what if key already exists then insert new value for that key
+            1. Get the hashValue.
+            2. Create a pair object
+            3. If collision then go for quadratic probing
+            if key already exists then insert new value for that key
         '''
         try:
             hashValue = self.__hash(key)
             while True:
+                # If key if not present, insert it in the slot, check loadfactor as well
                 if self.map[hashValue] == None:
                     self.map[hashValue] =  Pair(key, value)
                     self.size+=1
                     loadFactor = self.size / self.slots
-                    print(key, hashValue)
                     if(loadFactor >= 0.75):
                         print("reHashing happenindg", key)
                         self.__reHash()
                     return
+                # If key is already present, update the value and return
                 elif self.map[hashValue].key == key:
                     self.map[hashValue].value = value
                     return
+                # If the slot returned by hash function is occupied --> collision --> quadratic probing
                 hashValue = (hashValue * hashValue) % self.slots
         except Exception as e:
             print(e)
@@ -162,8 +165,8 @@ class hashTable:
     def getItem(self, key):
         '''
             If no key present then return None
-            For address probing, we can get same hash value for 2 different keys then we need to check if key are same
-            if not then quadratic
+            If the key is not present in the given slot that means it was inserted during collision
+            so we must do update the hash value and check if the key is present in new slot
         '''
         hashValue = self.__hash(key)
         while self.map[hashValue] != None:
