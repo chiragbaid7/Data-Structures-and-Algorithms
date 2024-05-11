@@ -18,7 +18,11 @@ class N_Array:
         return None 
 
     def insert(self,data,key=None):
-        #1st insert root element 
+            #Find the key and return the node address
+            #How? - First check if current node is the key return the node(BC -1) else  
+            #Traverse through recursively call on its children and find till  
+            #If the node not found then raise error
+            #else create and append the new node to its list
         if(self.root==None):
             self.root=Node(data)    
         else:
@@ -58,7 +62,6 @@ root.insert(80,30)
 
 root.insert(40,10)
 root.print()
-
 root.length()
 
 """
