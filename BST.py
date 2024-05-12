@@ -1,11 +1,12 @@
 #insert 
 #deletion
-#search 
+#search
+#Time Complexity - O(H) - In case of balanced B Tree
 class Node:
     def __init__(self,data):
         self.data=data
         self.left=None 
-        self.right=None 
+        self.right=None
 
 class BST:
     def __init__(self):
@@ -14,6 +15,7 @@ class BST:
     def __insert__util(self,key,node):  
         if(node==None):
             return Node(key)
+         #The current node pointer must be now linked to new node
         elif (key<node.data):
             node.left=self.__insert__util(key,node.left)
         elif(key>node.data):
@@ -38,22 +40,20 @@ class BST:
             node.right=self.__delete_node(data,node.right)
         else:
             #when key is found 
-            if(node.left==None and node.right==None):
-                return None 
-            elif(node.left and node.right==None):
+            if(not node.right):
                 return node.left 
-            elif(node.right and node.left==None):
+            elif(not node.left):
                 return node.right 
             #when 2 childrens exists
             else:
-                # find the in order succesor  and replace it with current node 
+                # find the in order successor and replace it with current node 
                 temp=node.right 
                 while(temp.left):
                     temp=temp.left 
                 node.data=temp.data
                 node.right=self.__delete_node(temp.data,node.right)
         return node 
-                
+    
     def delete(self,data):
         self.root=self.__delete_node(data,self.root)
 
