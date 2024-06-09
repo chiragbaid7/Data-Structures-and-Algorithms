@@ -15,6 +15,20 @@ class Graph:
             neigh=self.list[key] 
             print(key,neigh)
 
+    def DFS(self):
+        # BFS in a graph
+        queue = deque()
+        visited = [False] * self.nodes
+        queue.append(src)
+        while(queue):
+            vertex = queue.popleft()
+            for neighbour in self.list[vertex]:
+                #Push only when that vertex is not visited
+                if(not vertex[neighbour]):
+                    visited[neighbour] = True
+                    queue.append(neighbour)
+        
+
     def BFS(self,src):
         queue=deque()
         #a node can be visited twice so to avoid maintain a visited array
@@ -28,7 +42,19 @@ class Graph:
                 if(not visited[neigh]):
                     visited[neigh]=True
                     queue.append(neigh)
-
+    def DFSIteration(self):
+        stack = []
+        visited = [False] * self.nodes
+        stack.append(src):
+        while(stack):
+            parent = stack.pop()
+            #Print
+            print(parent)
+            for neighbour in self.list[parent]:
+                if(not visisted[neigbour]):
+                    visisted[neigbour] = True
+                    stack.append(neighbour)
+            
     def __util_DFS(self,src,visited):
         visited[src]=True 
         print(src)
@@ -82,6 +108,8 @@ class Graph:
             visited.
         """
         return self.__cycle_dfs(visited,src,src)
+
+    
 
 
 def main():
