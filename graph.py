@@ -13,7 +13,6 @@ class Graph:
     def printGraph(self):
         for key in self.list:
             neigh=self.list[key] 
-            print(key,neigh)
 
     def DFS(self):
         # BFS in a graph
@@ -27,7 +26,6 @@ class Graph:
                 if(not vertex[neighbour]):
                     visited[neighbour] = True
                     queue.append(neighbour)
-        
 
     def BFS(self,src):
         queue=deque()
@@ -42,17 +40,17 @@ class Graph:
                 if(not visited[neigh]):
                     visited[neigh]=True
                     queue.append(neigh)
-    def DFSIteration(self):
+
+    def DFSIteration(self,src, visited):
         stack = []
-        visited = [False] * self.nodes
-        stack.append(src):
+        stack.append(src)
+        visited[src] = True
         while(stack):
             parent = stack.pop()
-            #Print
             print(parent)
             for neighbour in self.list[parent]:
-                if(not visisted[neigbour]):
-                    visisted[neigbour] = True
+                if(not visited[neighbour]):
+                    visited[neighbour] = True
                     stack.append(neighbour)
             
     def __util_DFS(self,src,visited):
@@ -109,18 +107,26 @@ class Graph:
         """
         return self.__cycle_dfs(visited,src,src)
 
-    
+    def noOfConnectedComponents(self):
+        count = 0
+        visited = [False] * self.nodes
+        for node in self.list:
+            if(not visited[node]):
+                count+=1
+                self.DFSIteration(node,visited)
+        return count
 
 
 def main():
-    g=Graph(5)
+    g=Graph(7)
     g.AddEdge(1,2)
-    g.AddEdge(2,3)
-    g.AddEdge(2,4)
+    g.AddEdge(1,0)
     g.AddEdge(3,4)
+    g.AddEdge(5,4)
+    print("TOTAL COUNT",g.noOfConnectedComponents())
     #g.BFS(2)
     #g.DFS(1)
-    print(g.undirected_graph_cycle_BFS(1))
-    print(g.undirected_graph_cycle_DFS(1))
+    # print(g.undirected_graph_cycle_BFS(1))
+    # print(g.undirected_graph_cycle_DFS(1))
 if __name__=="__main__":
     main()
