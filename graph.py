@@ -6,6 +6,7 @@ class Graph:
         #this will create empty list as a value for a non existent key
         self.list=defaultdict(list)
         self.nodes=nodes
+
     def AddEdge(self,x,y):
         self.list[x].append(y)
         self.list[y].append(x)
@@ -13,19 +14,6 @@ class Graph:
     def printGraph(self):
         for key in self.list:
             neigh=self.list[key] 
-
-    def DFS(self):
-        # BFS in a graph
-        queue = deque()
-        visited = [False] * self.nodes
-        queue.append(src)
-        while(queue):
-            vertex = queue.popleft()
-            for neighbour in self.list[vertex]:
-                #Push only when that vertex is not visited
-                if(not vertex[neighbour]):
-                    visited[neighbour] = True
-                    queue.append(neighbour)
 
     def BFS(self,src):
         queue=deque()
@@ -40,19 +28,6 @@ class Graph:
                 if(not visited[neigh]):
                     visited[neigh]=True
                     queue.append(neigh)
-
-    def DFSIteration(self,src, visited):
-        stack = []
-        stack.append(src)
-        visited[src] = True
-        while(stack):
-            parent = stack.pop()
-            print(parent)
-            for neighbour in self.list[parent]:
-                if(not visited[neighbour]):
-                    visited[neighbour] = True
-                    stack.append(neighbour)
-            
     def __util_DFS(self,src,visited):
         visited[src]=True 
         print(src)
@@ -64,6 +39,21 @@ class Graph:
     def DFS(self,src):
         visited=[False]*self.nodes 
         self.__util_DFS(src,visited)
+
+    def DFSIteration(self,src, visited):
+        stack = []
+        stack.append(src)
+        visited.add(src)
+        visited[src] = True
+        while(stack):
+            parent = stack.pop()
+            # print(parent)
+            #Append all neighbours frames to the stack - LIFO
+            # Everytime top vertices path will be explored
+            for neighbour in self.list[parent]:
+                if(not visited[neighbour]):
+                    visited[neighbour] = True
+                    stack.append(neighbour)
 
     def undirected_graph_cycle_BFS(self,src):
         queue=deque()
@@ -107,23 +97,67 @@ class Graph:
         """
         return self.__cycle_dfs(visited,src,src)
 
+    #Count no of subgraphs
     def noOfConnectedComponents(self):
-        count = 0
+        countConnectedComponent = 0
         visited = [False] * self.nodes
         for node in self.list:
             if(not visited[node]):
-                count+=1
+                countConnectedComponent+=1
                 self.DFSIteration(node,visited)
+        return countConnectedComponent
+
+    def dfsLargestComponent(self, count, visited, node):
+        visited.add(node)
+        count+=1
+        #No of components
+        for neighbour in self.list[node]:
+            #Bi-directional graph edges will lead to stack exceeded error
+            if(neighbour not in visited):
+                count=self.dfsLargestComponent(count, visited, neighbour)
         return count
 
+    def largestComponent(self):
+        maxCount = 0
+        visited = set()
+        count = 0
+        for node in self.list:
+            if (node not in visited):
+                count = self.dfsLargestComponent(0, visited, node)
+                maxCount = max(count, maxCount)
+        return maxCount
+
+    def shortestPath(self, src, destination):
+        # Perform BFS - uniform traversal
+        # Queue - [node, distance]
+        queue = deque()
+        a = set()
+        queue.append([src, 0])
+        visited = [False]* self.nodes
+        while(queue):
+            parent, distance = queue.popleft()
+            visited[parent] = True
+            # a.add(parent)
+            if(parent == destination):
+                return distance
+            for neighbour in self.list[parent]:
+                #neighbour not in a
+                if(not visited[neighbour]):
+                    # parent -> neighbour
+                    # distance[neighbour] = distance[parent] + 1
+                    queue.append([neighbour], [distance + 1])
+        return -1
 
 def main():
     g=Graph(7)
-    g.AddEdge(1,2)
     g.AddEdge(1,0)
-    g.AddEdge(3,4)
-    g.AddEdge(5,4)
-    print("TOTAL COUNT",g.noOfConnectedComponents())
+    g.AddEdge(5,0)
+    g.AddEdge(5,8)
+    g.AddEdge(2,4)
+    g.AddEdge(3,2)
+    g.AddEdge(4,3)
+    # print("TOTAL COUNT",g.noOfConnectedComponents())
+    print(g.largestComponent())
     #g.BFS(2)
     #g.DFS(1)
     # print(g.undirected_graph_cycle_BFS(1))
