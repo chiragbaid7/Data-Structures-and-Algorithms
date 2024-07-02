@@ -13,32 +13,31 @@ class Graph:
 
     def printGraph(self):
         for key in self.list:
-            neigh=self.list[key] 
+            neigh=self.list[key]
 
     def BFS(self,src):
         queue=deque()
         #a node can be visited twice so to avoid maintain a visited array
         visited=[False]*self.nodes
-        visited[src]=True 
         queue.append(src)
         while(queue):
             key =queue.popleft()
-            print(key)
+            visited[src]=True
             for neigh in self.list[key]:
                 if(not visited[neigh]):
                     visited[neigh]=True
                     queue.append(neigh)
-    def __util_DFS(self,src,visited):
-        visited[src]=True 
-        print(src)
-        for neigh in self.list[src]:
-            if(not visited[neigh]):
-                self.__util_DFS(neigh,visited)
-        return
+
+    def __util_DFS(self,node,visited):
+        visited[node] = True
+        for neighbour in self.graph[node]:
+            if(not visited[neighbour]):
+                self.__util_DFS(neighbour)
         
     def DFS(self,src):
-        visited=[False]*self.nodes 
+        visited=[False]*self.nodes
         self.__util_DFS(src,visited)
+
 
     def DFSIteration(self,src, visited):
         stack = []
@@ -76,17 +75,17 @@ class Graph:
                     queue.append(neigh)
         return False 
         
-    def __cycle_dfs(self,visited,src,parent):
-        if(visited[src] and parent!=src):
+    def checkCyclePresenceInUndirectedGraph(self, visited, node, parentNode):
+        #Condition to check cycle presence 
+        if(visited[src]):
             return True
-        visited[src]=True 
-        for child in self.list[src]:
-            if(child==parent): #if the node is the parent of src then continue and traverse from the other end 
-                continue 
-            elif(self.__cycle_dfs(visited,child,src)):
-                return True 
-        return False 
-
+        visited[src] = True
+        for neighbour in self.list[node]:
+            if(neighbour == parent):
+                continue
+            elif(self.checkCyclePresenceInUndirectedGraph(visited, neighbour, node):
+                return True
+        return False
 
     def undirected_graph_cycle_DFS(self,src):
         visited=[False]*self.nodes 
@@ -95,7 +94,7 @@ class Graph:
             and backtrack and traverse from that node.Reapeat this untill all the nodes are 
             visited.
         """
-        return self.__cycle_dfs(visited,src,src)
+        return self.checkCyclePresenceInUndirectedGraph(visited,src,src)
 
     #Count no of subgraphs
     def noOfConnectedComponents(self):
@@ -120,11 +119,11 @@ class Graph:
     def largestComponent(self):
         maxCount = 0
         visited = set()
-        count = 0
         for node in self.list:
             if (node not in visited):
-                count = self.dfsLargestComponent(0, visited, node)
+                count = self.dfsLargestComponent(1, visited, node)
                 maxCount = max(count, maxCount)
+
         return maxCount
 
     def shortestPath(self, src, destination):
@@ -147,7 +146,7 @@ class Graph:
                     # distance[neighbour] = distance[parent] + 1
                     queue.append([neighbour], [distance + 1])
         return -1
-
+    def interval
 def main():
     g=Graph(7)
     g.AddEdge(1,0)
