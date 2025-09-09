@@ -19,7 +19,7 @@ class Trie:
     #then we create new till compelete
     node = self.root
     for ch in word:
-      if ch not in node:
+      if ch not in node.children:
         node.children[ch] = TrieNode()
       node = node.children[ch]
     node.isEnd = True #last node represents end of word
@@ -57,6 +57,42 @@ class Trie:
         del node.children[ch]
         return not node.isEnd and len(node.children) == 0 #case which tells if we want to remove this node as well
       return False
-      
+    return __delete(self.root, word, 0)
+  
+  def autoComplete(self, prefix):
+    #lets say this function is called for each search - app
+    #follow the path till isEnd not encountered
+    node = self.__find_node(prefix)
+    if not node:
+      return []
+    search_results = []
+    def dfs(node, currentPath):
+      #B.C for a word
+      if node.isEnd:
+        search_results.append("".join(currentPath)) #['a', 'p', 'p', 'l']
+      #traverse from current node and append each character
+      for ch, child in node.children.items():
+        dfs(child, currentPath + [ch])
+    dfs(node, list(prefix))
+    return search_results
+
+if __name__ == "__main__":
+    trie = Trie()
+    trie.insert("apple")
+    trie.insert("app")
+    trie.insert("application")
+    trie.insert("bat")
+    trie.insert("ball")
+
+    print(trie.search("apple"))        # True
+    print(trie.search("appl"))         # False
+    # print(trie.starts_with("app"))     # True
+    print(trie.autoComplete("app"))    # ['app', 'apple', 'application']
+
+    trie.delete("apple")
+    print(trie.search("apple"))        # False
+    print(trie.autoComplete("app"))    # ['app', 'application']
+        
+    
       
       
