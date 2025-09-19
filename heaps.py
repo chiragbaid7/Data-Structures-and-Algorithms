@@ -1,75 +1,71 @@
+'''
+For a node at index i in the array:
+
+Parent index → (i - 1) // 2
+
+Left child index → 2*i + 1
+
+Right child index → 2*i + 2
+https://chatgpt.com/c/68cd8008-a64c-8333-84a4-a00d96a1f4ae
+'''
 import math
+
 class Heap:
-  def __init__(self, type = 'maxHeap', maxSize = 10):
-    self.heapArray = [None]* size
-    self.heapSize = 0
-    self.maxSize = maxSize
-    self.type = type
+  def __init(self, isMin = True):
+    self.heap = []
+    self.isMin = isMin
 
-  def getParentIndex(childIndex):
-    return math.floor(childIndex/2)
+  def push(self, value):
+    # append the value to last position
+    #perform heapify up to put the element to right position - by comparing its parent O(logN)
+    self.heap.append(value)
+    self._heapify_up(len(self.heap)-1)
 
-  def getMax(self):
-    return self.heapArray[0] if heapSize > 0 else raise Exception("Heap is empty")
+  def _swap(self, i, j):
+    self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
+  
+  def __getParent(self, childIndex):
+    return (childIndex-1)//2
 
-  def compare(self, childIndex, parentIndex):
-    if(self.type == 'maxHeap'):
-      return self.heapArray[parentIndex] > self.heapArray[childIndex]
-    else:
-      return self.heapArray[childIndex]<self.heapArray[parentIndex]
+  def _leftChild(self, index):
+    return (2*index)+1
 
-  def insert(item):
-    '''
-      1. Insert item at the end of the array.
-      2. Locate its correct position as per heap by comparing with parent: arr[index] , arr[floor(index/2)] till we reach the top
-      Time Complexity - O(logN), height of the tree
-    '''
-    if(self.heapSize> self.maxSize):
-      raise Exception("Heap overflow")
-    self.heapArray[self.heapSize] = item
-    currentElementindex = self.heapSize
-    self.heapSize+=1
-    parentIndex = self.getParentIndex(currentElementIndex)
-    while(currentElementindex!=0 and self.heapArray[currentElementindex]>=self.heapArray[parentIndex]):
-      #Swap
-      self.heapArray[currentElementindex], self.heapArray[parentIndex] = self.heapArray[parentIndex], self.heapArray[currentElementindex]
-      currentElementIndex = parentIndex
-      parentIndex = self.getParentIndex(currentElementIndex)
-  def swap(self, index1, index2):
-    self.heapArray[index1], self.heapArray[index2] = self.heapArray[index2], self.heapArray[index1]
-  def heapify(self, parentIndex=0):
-    '''
-      24
-    /   \
-    12   33
-      Recursively balance the heap property by comparing parent value with its children
-      Max Heap 
-        - Swap parent with max(left,right)
-      Min Heap
-        - Swap parent with min(left, right)
-    '''
-    #we need to keep track which subtree we need to balance
-    currentActualIndex = parentIndex
-    left = 2*parentIndex+1
-    right = 2*parentIndex+2
-    if(left<=self.maxSize -1 and not self.compare(left, currentActualIndex)):
-        currentActualIndex = left
-    if(right<=self.maxSize-1 and not self.compare(right, currentActualIndex)):
-        currentActualIndex = right
-    if(currentActualIndex!=parentIndex):
-      self.swap(currentActualIndex, parentIndex)
-      self.heapify(currentActualIndex)
-    return
+  def _rightChild(self, index):
+    return (2*index)+2
+
+  def __compare(self, childValue, parentValue):
+    # not follwowing the invariant property then return true
+    return childValue < parentValue if self.isMin else childValue > parentValue
     
-  def remove(self):
-    '''
-      Remove the max/min Element - root node
-      1. Swap the root node value with last element and pop the element.
-      2. Balance the tree - Heapify()
-    '''
-    lastIndex = self.heapSize - 1
-    self.heapArray[0], self.heapArray[lastIndex] = self.heapArray[lastIndex], self.heapArray[0]
-    self.heapArray[lastIndex] = None
-    self.heapify()
+  
+  def __heapify_up(self, currentIndex):
+    #compare with parent
+    parentIndex = self.__getParent(currentIndex)
+    while( currentIndex > 0 and self.__compare(self.heap[currentIndex], parentIndex):
+      #if true then swap
+      self._swap(currentIndex, parentIndex)
+      currentIndex = parentIndex
+
+  def pop(self): #pop, heapify down on max or min heap
+    if not self.heap:
+      return IndexError("Pop from empty heap")
+
+    root = self.heap[0]
+    self.heap[0] = self.heap.pop() #move the last element to top, jaan puch kar to mess up
+    self._heapify_down(0) #now maintain the heap property
+    return root
+        
+  def _heapify_down(currentIndex):
+    best = currentIndex
+    leftChild, rightChild = self._leftChild(currentIndex), self._rightChild(currentIndex)
+    # on each subtree we compare and satisfy the heap variant property
+    if leftChild < len(self.heap) and self._compare(self.leftChild, best):
+      best = leftChild
+    if rightChild < len(self.heap) and self._compare(self.rightChild, best):
+      best = rightChild
+    if best!=currentIndex:
+      self._swap(best, currentIndex)
+      self._heapify_down(best)
+
 
 h = Heap()
