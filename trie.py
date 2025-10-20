@@ -1,9 +1,24 @@
 '''
-Trie is a prefix based tree data structure used to store strings 
-each node represent character
-from each node we create a link of nodes
+Trie is a prefix based tree data structure used to store and retrive strings efficiently
 the op for insert/search/delete - O(l), lookup for prefix, autocomplete
+https://chatgpt.com/c/68f5cc49-022c-8323-ae3f-b799e9701de1
 '''
+
+class TrieNode:
+  def __init__(self):
+    self.children = {} #map each character to node(children)
+    self.isEnd = False
+  def insert(self, word):
+    node = self.root
+    for ch in word:
+      if ch not in node.children:
+        node.children[ch] = TrieNode()
+      node = node.children[ch]
+    node.isEnd = True
+  def search(self, word):
+    
+
+
 
 class TrieNode:
   def __init__(self):
@@ -22,7 +37,18 @@ class Trie:
       if ch not in node.children:
         node.children[ch] = TrieNode()
       node = node.children[ch]
-    node.isEnd = True #last node represents end of word
+    node.isEnd = True #last probably empty node represents end of word
+
+  def search(self, word): # we need to search the complete word not the prefix
+    node = self.__find_node(word)
+
+  def __find_node(self, word):
+    node = self.root
+    for ch in word:
+      if ch not in node.children:
+        return None
+      node = node.children[ch]
+    return node
 
   def search(self, word):
     #Traverse each character if not found on that node return None or if just prefix is present and the node returned is not True(end) then return None
@@ -36,13 +62,28 @@ class Trie:
         return None
       node = node.children[ch]
     return node
+
+  def delete(self, word, index):
+    #base case -> when we reach the end of word expidiation
+    if len(word) == depth:
+      if not node.isEnd:
+        return False
+      node.isEnd = True
+      return len(node.children) == 0 
+    ch = word[index]
+    if ch not in node.children:
+      return False
+    should_delete = 
+    if should_delete:
+      del node.chlidren[ch]
+        
   
   def delete(self, word):
     #DFS -> we reach the end of word and then we mark isEnd and remove the nodes if apt
     #BASE CASE:- complete word no children -> safe to remove the key
-    def __delete(node, word, depth):
-      # end of word case
-      if depth == len(word):
+    def __delete(node, word, index):
+      # end of word case,  # catab , but word -> cat
+      if index == len(word):
         if not node.isEnd:
           return False #edge case word not present
         node.isEnd = False #no the word doesn't exist, as we have marked the 
@@ -51,7 +92,7 @@ class Trie:
       ch = word[depth]
       if ch not in node.children:
         return False
-      should_delete = __delete(node.children[ch], word, depth + 1)
+      should_delete = __delete(node.children[ch], word, index + 1)
       if should_delete:
         #remove the character
         del node.children[ch]
@@ -72,6 +113,7 @@ class Trie:
         search_results.append("".join(currentPath)) #['a', 'p', 'p', 'l']
       #traverse from current node and append each character
       for ch, child in node.children.items():
+        #[a,p,p] + [l, e], [a,p,p] + ['c,', a
         dfs(child, currentPath + [ch])
     dfs(node, list(prefix))
     return search_results
